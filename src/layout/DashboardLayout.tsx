@@ -12,7 +12,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       <Sidebar />
       <div className="flex flex-col flex-1">
         <TopNavbar />
-        <main className="overflow-y-auto p-6">{children}</main>
+        <main className="overflow-y-auto">{children}</main>
       </div>
     </div>
   );
