@@ -15,7 +15,7 @@ export default function DetailCard({
 }: CardProps) {
   return (
     <div
-      className={`mx-auto bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm ${className}`}
+      className={`mx-auto bg-white border-black border-2 rounded-xl overflow-hidden shadow-sm ${className}`}
     >
       {/* Heading */}
       <div className="bg-[#001f3f] text-white px-6 py-2 h-9 font-semibold text-[16px]">

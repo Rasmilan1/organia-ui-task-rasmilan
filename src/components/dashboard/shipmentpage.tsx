@@ -323,10 +323,16 @@
 import { useState } from "react";
 import CustomTextField from "./CustomTextField";
 import DetailCard from "./DetailCard";
+
 import dynamic from "next/dynamic";
 
 const MapPicker = dynamic(() => import("./LocationPicker"), {
   ssr: false,
+  loading: () => (
+    <div className="h-full w-full bg-gray-100 animate-pulse flex items-center justify-center text-xs text-gray-400">
+      Loading Map...
+    </div>
+  ),
 });
 
 export default function ShipmentTabs() {
@@ -347,9 +353,8 @@ export default function ShipmentTabs() {
 
   return (
     <div className="w-full bg-white">
-      {/* Tabs Header */}
       {/* Tabs header */}
-      <div className="flex items-end ml-10">
+      <div className="flex ">
         {/* Changed to items-end */}
         {tabs.map((tab) => {
           const isActive = activeTab === tab.id; // Check actual state
@@ -382,7 +387,7 @@ export default function ShipmentTabs() {
       </div>
 
       {/* Active tab content container */}
-      <div className="border-2 border-[#001B3D] rounded-3xl rounded-tl-none p-1 bg-white">
+      <div className="border-2 border-[#001B3D] rounded-[18px] p-1 bg-white">
         {/* The rounded-tl-none makes the corner under the first tab sharp like Figma */}
         {tabs.map(
           (tab) =>
@@ -407,268 +412,294 @@ function ShipmentForm({}: Props) {
   const parsedLng = Number(lng);
 
   return (
-    <div className="flex gap-8">
+    <div className="flex">
       {/* Left Sidebar Tracker */}
-      <div className="flex flex-col items-center gap-4 py-4 ">
-        <div className="flex flex-col items-center gap-1">
-          <div className="w-8 h-8 rounded-full border-2 border-green-500 flex items-center justify-center text-green-500">
-            ✓
+      <div className="flex flex-col items-center w-24 py-4 border-r border-gray-100 relative">
+        {/* The Vertical Line */}
+        <div className="absolute top-10 bottom-10 w-0.5 bg-gray-100 -z-10"></div>
+
+        <div className="flex flex-col gap-10">
+          {/* Step 1: Done */}
+          <div className="flex flex-col items-center gap-1">
+            <div className="w-8 h-8 rounded-full border-2 border-green-500 bg-green-50 flex items-center justify-center text-green-500">
+              <span className="material-symbols-outlined text-sm">check</span>
+            </div>
+            <span className="text-[10px] font-bold text-green-600">
+              Location
+            </span>
           </div>
-          <div className="h-10 w-0.5 bg-gray-200"></div>
-          <div className="w-8 h-8 rounded-full border-2 border-green-500 flex items-center justify-center text-green-500">
-            ✓
+
+          {/* Step 2: Active */}
+          <div className="flex flex-col items-center gap-1">
+            <div className="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center text-white shadow-md">
+              <span className="material-symbols-outlined text-lg">
+                inventory_2
+              </span>
+            </div>
+            <span className="text-[10px] font-bold text-emerald-600">Sub1</span>
           </div>
-          <div className="h-10 w-0.5 bg-gray-200"></div>
-          <div className="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center"></div>
+
+          {/* Step 3: Pending */}
+          <div className="flex flex-col items-center gap-1">
+            <div className="w-8 h-8 rounded-full border-2 border-gray-200 bg-white flex items-center justify-center text-gray-300">
+              <span className="material-symbols-outlined text-lg">person</span>
+            </div>
+            <span className="text-[10px] font-bold text-gray-400">Sub2</span>
+          </div>
         </div>
       </div>
 
       {/* Forms Container */}
       <div className="flex-1 space-y-6">
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-          {/* Your DetailCards here... */}
-          <DetailCard
-            title="Details 1"
-            className="w-full max-w-150 border-2 border-[#001B3D]"
-          >
-            <form className="grid grid-cols-2 gap-x-6 gap-y-4 ">
-              <CustomTextField
-                label="First Name"
-                placeholder="First Name"
-                required
-              />
-              <CustomTextField label="Last Name" placeholder="Last Name" />
-              <CustomTextField
-                label="Contact Person Name"
-                placeholder="Name"
-                required
-              />
+        {/* Top Section: Side-by-Side Details Cards */}
+        <div className="flex flex-row">
+          {/* DetailCard 1 */}
+          <div className="w-1/2">
+            <DetailCard title="Details 1" className="w-full">
+              <form className="grid grid-cols-2 gap-x-6 gap-y-4 ">
+                <CustomTextField
+                  label="First Name"
+                  placeholder="First Name"
+                  required
+                />
+                <CustomTextField label="Last Name" placeholder="Last Name" />
+                <CustomTextField
+                  label="Contact Person Name"
+                  placeholder="Name"
+                  required
+                />
 
-              {/* Contact Number Prefix */}
-              <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-bold text-gray-500 ml-2">
-                  Contact Number <span className="text-red-500">*</span>
-                </label>
-                <div className="flex border border-gray-300 rounded-full overflow-hidden focus-within:ring-1 focus-within:ring-blue-500 bg-white">
-                  <select className="bg-gray-100 border-r border-gray-300 px-3 py-2 text-xs text-gray-600 outline-none">
-                    <option>+ 94</option>
+                {/* Contact Number Prefix */}
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-xs font-bold text-gray-500 ml-2">
+                    Contact Number <span className="text-red-500">*</span>
+                  </label>
+                  <div className="flex border border-gray-300 rounded-full overflow-hidden focus-within:ring-1 focus-within:ring-blue-500 bg-white">
+                    <select className="bg-gray-100 border-r border-gray-300 px-3 py-2 text-xs text-gray-600 outline-none">
+                      <option>+ 94</option>
+                    </select>
+                    <input
+                      type="tel"
+                      className="w-full px-4 py-1.5 text-xs outline-none"
+                    />
+                  </div>
+                </div>
+
+                <div className="col-span-2 my-2 h-40 w-full rounded-2xl overflow-hidden border border-gray-200">
+                  <MapPicker
+                    lat={parsedLat}
+                    lng={parsedLng}
+                    onChange={(la, ln) => {
+                      setLat(la.toFixed(6));
+                      setLng(ln.toFixed(6));
+                    }}
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <CustomTextField
+                    label="Latitude"
+                    value={lat}
+                    placeholder="Select on map"
+                    onChange={(e) => setLat(e.target.value)}
+                  />
+                  <CustomTextField
+                    label="Longitude"
+                    value={lng}
+                    placeholder="Select on map"
+                    onChange={(e) => setLng(e.target.value)}
+                  />
+                </div>
+
+                {/* Province Select */}
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-xs font-bold text-gray-500 ml-2">
+                    Province <span className="text-red-500">*</span>
+                  </label>
+                  <select className="w-full px-4 py-1.5 border border-gray-300 rounded-full text-xs text-gray-400 bg-white outline-none">
+                    <option>Select the province</option>
                   </select>
-                  <input
-                    type="tel"
-                    className="w-full px-4 py-1.5 text-xs outline-none"
+                </div>
+
+                <CustomTextField
+                  label="District"
+                  placeholder="District"
+                  required
+                />
+                <CustomTextField label="City" placeholder="City" required />
+                <CustomTextField
+                  label="Street / Lane"
+                  placeholder="Street"
+                  required
+                />
+                <CustomTextField
+                  label="Address Note"
+                  placeholder="Note"
+                  required
+                />
+              </form>
+            </DetailCard>
+          </div>
+
+          {/* DetailCard 2 */}
+          <div className="w-1/2">
+            <DetailCard title="Details 1" className="w-full">
+              <form className="grid grid-cols-2 gap-x-6 gap-y-4">
+                <CustomTextField
+                  label="First Name"
+                  placeholder="First Name"
+                  required
+                />
+                <CustomTextField label="Last Name" placeholder="Last Name" />
+                <CustomTextField
+                  label="Contact Person Name"
+                  placeholder="Name"
+                  required
+                />
+
+                {/* Contact Number Prefix */}
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-xs font-bold text-gray-500 ml-2">
+                    Contact Number <span className="text-red-500">*</span>
+                  </label>
+                  <div className="flex border border-gray-300 rounded-full overflow-hidden focus-within:ring-1 focus-within:ring-blue-500 bg-white">
+                    <select className="bg-gray-100 border-r border-gray-300 px-3 py-2 text-xs text-gray-600 outline-none">
+                      <option>+ 94</option>
+                    </select>
+                    <input
+                      type="tel"
+                      className="w-full px-4 py-1.5 text-xs outline-none"
+                    />
+                  </div>
+                </div>
+
+                <div className="col-span-2 my-2 h-40 w-full rounded-2xl overflow-hidden border border-gray-200">
+                  <MapPicker
+                    lat={Number(lat)}
+                    lng={Number(lng)}
+                    onChange={(newLat, newLng) => {
+                      setLat(newLat.toFixed(6));
+                      setLng(newLng.toFixed(6));
+                    }}
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <CustomTextField
+                    label="Latitude"
+                    value={lat}
+                    placeholder="Select on map"
+                    onChange={(e) => setLat(e.target.value)}
+                  />
+                  <CustomTextField
+                    label="Longitude"
+                    value={lng}
+                    placeholder="Select on map"
+                    onChange={(e) => setLng(e.target.value)}
+                  />
+                </div>
+
+                {/* Province Select */}
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-xs font-bold text-gray-500 ml-2">
+                    Province <span className="text-red-500">*</span>
+                  </label>
+                  <select className="w-full px-4 py-1.5 border border-gray-300 rounded-full text-xs text-gray-400 bg-white outline-none">
+                    <option>Select the province</option>
+                  </select>
+                </div>
+
+                <CustomTextField
+                  label="District"
+                  placeholder="District"
+                  required
+                />
+                <CustomTextField label="City" placeholder="City" required />
+                <CustomTextField
+                  label="Street / Lane"
+                  placeholder="Street"
+                  required
+                />
+                <CustomTextField
+                  label="Address Note"
+                  placeholder="Note"
+                  required
+                />
+              </form>
+            </DetailCard>
+          </div>
+
+          <div className=""></div>
+        </div>
+
+        {/* Bottom Section: Full Width Sub Details */}
+        <div className="w-ful">
+          <DetailCard title="Sub Details" className="w-full">
+            <form className="space-y-6">
+              {/* Main Info Section */}
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
+                <div className="md:col-span-2">
+                  <CustomTextField
+                    label="Name"
+                    placeholder="Enter name"
+                    required
+                  />
+                </div>
+
+                <div className="md:col-span-2 flex flex-col gap-1.5">
+                  <label className="text-xs font-bold text-gray-500 ml-2">
+                    Type
+                  </label>
+                  <div className="relative">
+                    <select className="w-full px-4 py-1.5 border border-gray-300 rounded-full text-xs text-gray-400 appearance-none bg-white outline-none">
+                      <option>Select type</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="md:col-span-2">
+                  <CustomTextField
+                    label="Total Value"
+                    placeholder="Enter total value"
+                  />
+                </div>
+
+                <div className="md:col-span-6">
+                  <CustomTextField
+                    label="Description"
+                    placeholder="Enter description"
                   />
                 </div>
               </div>
 
-              <div className="col-span-2 my-2 h-40 w-full rounded-2xl overflow-hidden border border-gray-200">
-                <MapPicker
-                  lat={parsedLat}
-                  lng={parsedLng}
-                  onChange={(la, ln) => {
-                    setLat(la.toFixed(6));
-                    setLng(ln.toFixed(6));
-                  }}
-                />
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <CustomTextField
-                  label="Latitude"
-                  value={lat}
-                  placeholder="Select on map"
-                  onChange={(e) => setLat(e.target.value)}
-                />
-                <CustomTextField
-                  label="Longitude"
-                  value={lng}
-                  placeholder="Select on map"
-                  onChange={(e) => setLng(e.target.value)}
-                />
-              </div>
-
-              {/* Province Select */}
-              <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-bold text-gray-500 ml-2">
-                  Province <span className="text-red-500">*</span>
-                </label>
-                <select className="w-full px-4 py-1.5 border border-gray-300 rounded-full text-xs text-gray-400 bg-white outline-none">
-                  <option>Select the province</option>
-                </select>
-              </div>
-
-              <CustomTextField
-                label="District"
-                placeholder="District"
-                required
-              />
-              <CustomTextField label="City" placeholder="City" required />
-              <CustomTextField
-                label="Street / Lane"
-                placeholder="Street"
-                required
-              />
-              <CustomTextField
-                label="Address Note"
-                placeholder="Note"
-                required
-              />
-            </form>
-          </DetailCard>
-
-          <DetailCard title="Details 1" className="w-full max-w-150">
-            <form className="grid grid-cols-2 gap-x-6 gap-y-4">
-              <CustomTextField
-                label="First Name"
-                placeholder="First Name"
-                required
-              />
-              <CustomTextField label="Last Name" placeholder="Last Name" />
-              <CustomTextField
-                label="Contact Person Name"
-                placeholder="Name"
-                required
-              />
-
-              {/* Contact Number Prefix */}
-              <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-bold text-gray-500 ml-2">
-                  Contact Number <span className="text-red-500">*</span>
-                </label>
-                <div className="flex border border-gray-300 rounded-full overflow-hidden focus-within:ring-1 focus-within:ring-blue-500 bg-white">
-                  <select className="bg-gray-100 border-r border-gray-300 px-3 py-2 text-xs text-gray-600 outline-none">
-                    <option>+ 94</option>
-                  </select>
-                  <input
-                    type="tel"
-                    className="w-full px-4 py-1.5 text-xs outline-none"
+              {/* Measurements Section */}
+              <div className="border border-gray-200 rounded-2xl p-5 bg-gray-50/30">
+                <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
+                  <CustomTextField
+                    label="Quantity"
+                    placeholder="Enter quantity"
+                    required
                   />
+                  <CustomTextField label="Number" placeholder="Enter number" />
+                  <CustomTextField
+                    label="Weight (Kg)"
+                    placeholder="Enter weight"
+                  />
+                  <CustomTextField
+                    label="Height (m³)"
+                    placeholder="Enter height"
+                  />
+                  <CustomTextField
+                    label="Length (m)"
+                    placeholder="Enter length"
+                  />
+                  <CustomTextField label="Width" placeholder="Enter width" />
                 </div>
               </div>
-
-              <div className="col-span-2 my-2 h-40 w-full rounded-2xl overflow-hidden border border-gray-200">
-                <MapPicker
-  lat={Number(lat)}
-  lng={Number(lng)}
-  onChange={(newLat, newLng) => {
-    setLat(newLat.toFixed(6));
-    setLng(newLng.toFixed(6));
-  }}
-/>
-
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <CustomTextField
-                  label="Latitude"
-                  value={lat}
-                  placeholder="Select on map"
-                  onChange={(e) => setLat(e.target.value)}
-                />
-                <CustomTextField
-                  label="Longitude"
-                  value={lng}
-                  placeholder="Select on map"
-                  onChange={(e) => setLng(e.target.value)}
-                />
-              </div>
-
-              {/* Province Select */}
-              <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-bold text-gray-500 ml-2">
-                  Province <span className="text-red-500">*</span>
-                </label>
-                <select className="w-full px-4 py-1.5 border border-gray-300 rounded-full text-xs text-gray-400 bg-white outline-none">
-                  <option>Select the province</option>
-                </select>
-              </div>
-
-              <CustomTextField
-                label="District"
-                placeholder="District"
-                required
-              />
-              <CustomTextField label="City" placeholder="City" required />
-              <CustomTextField
-                label="Street / Lane"
-                placeholder="Street"
-                required
-              />
-              <CustomTextField
-                label="Address Note"
-                placeholder="Note"
-                required
-              />
             </form>
           </DetailCard>
         </div>
 
-        {/* Sub Details */}
-        <DetailCard title="Sub Details" className="w-full">
-          <form className="space-y-6">
-            {/* Main Info Section */}
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
-              <div className="md:col-span-2">
-                <CustomTextField
-                  label="Name"
-                  placeholder="Enter name"
-                  required
-                />
-              </div>
-
-              <div className="md:col-span-2 flex flex-col gap-1.5">
-                <label className="text-xs font-bold text-gray-500 ml-2">
-                  Type
-                </label>
-                <div className="relative">
-                  <select className="w-full px-4 py-1.5 border border-gray-300 rounded-full text-xs text-gray-400 appearance-none bg-white outline-none">
-                    <option>Select type</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="md:col-span-2">
-                <CustomTextField
-                  label="Total Value"
-                  placeholder="Enter total value"
-                />
-              </div>
-
-              <div className="md:col-span-6">
-                <CustomTextField
-                  label="Description"
-                  placeholder="Enter description"
-                />
-              </div>
-            </div>
-
-            {/* Measurements Section */}
-            <div className="border border-gray-200 rounded-2xl p-5 bg-gray-50/30">
-              <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
-                <CustomTextField
-                  label="Quantity"
-                  placeholder="Enter quantity"
-                  required
-                />
-                <CustomTextField label="Number" placeholder="Enter number" />
-                <CustomTextField
-                  label="Weight (Kg)"
-                  placeholder="Enter weight"
-                />
-                <CustomTextField
-                  label="Height (m³)"
-                  placeholder="Enter height"
-                />
-                <CustomTextField
-                  label="Length (m)"
-                  placeholder="Enter length"
-                />
-                <CustomTextField label="Width" placeholder="Enter width" />
-              </div>
-            </div>
-          </form>
-        </DetailCard>
+        <button className="bg-[#001B3D] text-white ">hi</button>
       </div>
-
-      {/* Sub Details Section */}
-      <div className="mt-6 border-t pt-6">{/* Sub Details Card */}</div>
     </div>
   );
 }
