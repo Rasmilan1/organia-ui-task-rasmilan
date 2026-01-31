@@ -1,15 +1,23 @@
-import Menu2Header from "@/components/dashboard/shipmentpage_header";
-import ShipmentTabs from "@/components/dashboard/shipmentpage";
-import DashboardLayout from "@/layout/DashboardLayout";
+// import Menu2Header from "@/features/shipments/components/shipmentpage_header";
+// import DashboardLayout from "@/layout/DashboardLayout";
+// import ShipmentTabs from "./(general)/shipments/page";
 
-export default function Home() {
-  return (
-    <DashboardLayout>
-     <Menu2Header/>
-     <div className="bg-gray-200 p-5"> <ShipmentTabs /></div>  
+// export default function Home() {
+//   return (
+//     <DashboardLayout>
+//      <Menu2Header/>
+//      <div className="bg-gray-200 p-5"> <ShipmentTabs /></div>  
  
 
-    </DashboardLayout>
+//     </DashboardLayout>
 
-  );
+//   );
+// }
+
+
+
+import { redirect } from "next/navigation";
+
+export default function Home() {
+  redirect("home");
 }
