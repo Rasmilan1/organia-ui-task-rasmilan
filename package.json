@@ -9,12 +9,18 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@butterfail/tailwindcss-inverted-radius": "^0.1.2",
+    "@hookform/resolvers": "^5.2.2",
+    "@sinm/react-chrome-tabs": "^2.6.2",
     "leaflet": "^1.9.4",
     "material-symbols": "^0.40.2",
     "next": "16.1.6",
     "react": "19.2.3",
     "react-dom": "19.2.3",
-    "react-leaflet": "^5.0.0"
+    "react-hook-form": "^7.71.1",
+    "react-leaflet": "^5.0.0",
+    "react-phone-input-2": "^2.15.1",
+    "yup": "^1.7.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -24,6 +30,8 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
+    "prettier": "^3.8.1",
+    "prettier-plugin-tailwindcss": "^0.7.2",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

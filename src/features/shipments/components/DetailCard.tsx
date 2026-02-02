@@ -15,15 +15,35 @@ export default function DetailCard({
 }: CardProps) {
   return (
     <div
-      className={`mx-auto bg-white border-black border-2 rounded-xl overflow-hidden shadow-sm ${className}`}
+      className={`
+        overflow-hidden
+        w-full 
+        mx-auto
+        bg-white
+        border-black border-2 rounded-xl
+        ${className}
+      `}
     >
       {/* Heading */}
-      <div className="bg-[#001f3f] text-white px-6 py-2 h-9 font-semibold text-[16px]">
+      <div
+        className="
+          h-9
+          px-6 py-2
+          text-white font-semibold text-[16px]
+          bg-[#001f3f]
+        "
+      >
         {title}
       </div>
 
       {/* Content */}
-      <div className="p-6">{children}</div>
+      <div
+        className="
+          p-6
+        "
+      >
+        {children}
+      </div>
     </div>
   );
 }
