@@ -2,6 +2,7 @@
 
 import Sidebar from "@/features/navigation/components/Sidebar";
 import TopNavbar from "@/features/navigation/components/TopNavbar";
+import Menu2Header from "@/features/shipments/components/ShipmentPageHeader";
 import React from "react";
 
 export default function GeneralLayout({
@@ -10,11 +11,28 @@ export default function GeneralLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex h-screen">
+    <div
+      className="
+        flex
+        min-h-screen
+      "
+    >
       <Sidebar />
-      <div className="flex flex-col flex-1">
+
+      <div
+        className="
+          flex-1 flex flex-col
+        "
+      >
         <TopNavbar />
-        <main className="overflow-y-auto">{children}</main>
+        <Menu2Header />
+        <main
+          className="
+            flex-1 overflow-y-auto
+          "
+        >
+          {children}
+        </main>
       </div>
     </div>
   );
