@@ -80,9 +80,6 @@ Open in browser:http://localhost:3000
 
 ![Form Screenshot](public/screenshots/image2.png)
 
-⚠ Known Limitations
-
-The UI may not be 100% pixel-identical to the provided design
 
 ```
 
@@ -134,3 +131,8 @@ The UI may not be 100% pixel-identical to the provided design
 
 
 ```
+
+# ⚠ Known Limitations
+
+The UI may not be 100% pixel-identical to the provided design
+
