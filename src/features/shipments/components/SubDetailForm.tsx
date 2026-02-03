@@ -39,7 +39,6 @@ export default function SubDetailForm({ control, errors }: SubDetailFormProps) {
             <CustomSelectField
               label="Type"
               variant="select"
-              required
               options={[
                 { label: "Select Type", value: "" },
                 { label: "", value: "type" },
@@ -76,7 +75,6 @@ export default function SubDetailForm({ control, errors }: SubDetailFormProps) {
       </div>
 
       {/* bottom */}
-      {/* Measurements */}
       <div
         className="
           p-5

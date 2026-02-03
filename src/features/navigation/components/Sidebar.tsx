@@ -1,15 +1,22 @@
+"use client";
+
 import Logo from "@/utils/Logo";
+import { usePathname, useRouter } from "next/navigation";
+
 
 export default function Sidebar() {
-  const menuItems = [
-    { icon: "home", label: "Home" },
-    { icon: "compare_arrows", label: "Menu 2" },
-    { icon: "bus_alert", label: "Menu 3" },
-    { icon: "groups_3", label: "Menu 4" },
-    { icon: "local_shipping", label: "Menu 5" },
-    { icon: "delivery_truck_speed", label: "Menu 6" },
-    { icon: "notes", label: "Menu 7" },
-  ];
+  const router = useRouter();
+  const pathname = usePathname();
+
+const menuItems = [
+  { icon: "home", label: "Home", path: "/dashboard" },
+  { icon: "compare_arrows", label: "Menu 2", path: "/shipments" },
+  { icon: "bus_alert", label: "Menu 3", path: "/menu-3" },
+  { icon: "groups_3", label: "Menu 4", path: "/menu-4" },
+  { icon: "local_shipping", label: "Menu 5", path: "/menu-5" },
+  { icon: "delivery_truck_speed", label: "Menu 6", path: "/menu-6" },
+  { icon: "notes", label: "Menu 7", path: "/menu-7" },
+];
 
   return (
     <aside
@@ -46,15 +53,15 @@ export default function Sidebar() {
         {menuItems.map((item, index) => (
           <button
             key={index}
-            className="
+            onClick={() => item.path && router.push(item.path)}
+            className={`
               flex flex-col
               w-full
               py-2
               text-[#001B3D]
               transition-colors
               items-center justify-center hover:bg-gray-100
-            "
-          >
+              ${pathname === item.path ? "bg-gray-100 text-blue-600" : "text-[#001B3D]"}`}  >
             <span
               style={{ fontVariationSettings: "'FILL' 1" }}
               className="
