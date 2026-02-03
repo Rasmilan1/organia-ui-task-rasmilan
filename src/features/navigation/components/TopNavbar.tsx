@@ -126,18 +126,17 @@ export default function TopNavbar({}) {
         className="
           flex
           min-h-10
-          ml-[7%]
+          px-4
           items-center justify-between
-          md:h-11
+          md:h-11 md:px-6
+          lg:px-8
         "
       >
         <div
           className="
             flex
-            ml-2
             items-center gap-2
-            md:ml-0 md:gap-3
-            lg:ml-6
+            md:gap-3
           "
         >
           <button
@@ -182,6 +181,8 @@ export default function TopNavbar({}) {
             Sub
           </button>
         </div>
+
+        {/* Mobile Hamburger */}
         <div
           onClick={() => setIsModalOpen(true)}
           className="
@@ -205,6 +206,7 @@ export default function TopNavbar({}) {
           </span>
         </div>
       </div>
+
       <HamburgerModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
