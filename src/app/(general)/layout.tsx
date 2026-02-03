@@ -10,12 +10,51 @@ export default function GeneralLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex h-screen">
-      <Sidebar />
-      <div className="flex flex-col flex-1">
-        <TopNavbar />
-        <main className="overflow-y-auto">{children}</main>
-      </div>
-    </div>
+    // <div
+    //   className="
+    //     flex
+    //     min-h-screen
+    //   "
+    // >
+    //   <Sidebar />
+
+    //   <div
+    //     className="
+    //       flex-1 flex flex-col
+    //     "
+    //   >
+    //     <TopNavbar />
+    //     <main
+    //       className="
+    //         flex-1 overflow-y-auto
+    //       "
+    //     >
+    //       {children}
+    //     </main>
+    //   </div>
+    // </div>
+    <div
+            className="
+              flex
+              min-h-screen
+            "
+          >
+            <Sidebar />
+      
+            <div
+              className="
+                flex-1 flex flex-col
+              "
+            >
+              <TopNavbar />
+              <main
+                className="
+                  flex-1 overflow-y-auto
+                "
+              >
+                {children}
+              </main>
+            </div>
+          </div>
   );
 }

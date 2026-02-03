@@ -1,5 +1,3 @@
-"use client";
-
 import {
   MapContainer,
   TileLayer,
@@ -12,23 +10,12 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { useEffect } from "react";
 
-const icon = L.divIcon({
-  html: `<span class="material-symbols-outlined"
-    style="font-size:40px;color:#d32f2f;font-variation-settings:'FILL' 1;">
-    location_on
-  </span>`,
-  className: "map-marker-icon",
-  iconSize: [40, 40],
-  iconAnchor: [20, 40],
-});
-
 interface MapPickerProps {
   lat?: number;
   lng?: number;
   onChange: (lat: number, lng: number) => void;
 }
 
-/* Click on map → update parent */
 function MapClick({ onChange }: { onChange: MapPickerProps["onChange"] }) {
   useMapEvents({
     click(e) {
@@ -38,44 +25,73 @@ function MapClick({ onChange }: { onChange: MapPickerProps["onChange"] }) {
   return null;
 }
 
-/* Recenter map when coordinates change */
-function Recenter({ center }: { center: LatLngTuple }) {
+const SRI_LANKA_BOUNDS: LatLngTuple[] = [
+  [8.6, 80.4],
+  [9.9, 81.9],
+];
+
+function FitSriLanka() {
   const map = useMap();
 
   useEffect(() => {
-    map.setView(center, 12);
-  }, [center, map]);
+    map.fitBounds(SRI_LANKA_BOUNDS, {
+      padding: [20, 20],
+      animate: false,
+    });
+  }, [map]);
 
   return null;
 }
 
 export default function MapPicker({ lat, lng, onChange }: MapPickerProps) {
-  const isValid =
-    Number.isFinite(lat) &&
-    Number.isFinite(lng) &&
-    lat! >= -90 &&
-    lat! <= 90 &&
-    lng! >= -180 &&
-    lng! <= 180;
+  const customIcon = L.divIcon({
+    html: `<span class="material-symbols-outlined" 
+            style="font-size:40px;color:#d32f2f;font-variation-settings:'FILL' 1;">
+            location_on
+           </span>`,
+    className: "map-marker-icon",
+    iconSize: [40, 40],
+    iconAnchor: [20, 40],
+  });
 
-  const center: LatLngTuple = isValid ? [lat!, lng!] : [7.8731, 80.7718];
+  const isValid =
+    typeof lat === "number" &&
+    typeof lng === "number" &&
+    !isNaN(lat) &&
+    !isNaN(lng) &&
+    lat >= -90 &&
+    lat <= 90 &&
+    lng >= -180 &&
+    lng <= 180;
+
+  const center: LatLngTuple = isValid ? [lat, lng] : [7.8731, 80.7718];
 
   return (
-    <MapContainer
-      center={center}
-      zoom={isValid ? 12 : 7}
-      style={{ height: "100%", width: "100%" }}
+    <div
+      className="
+        h-full w-full
+      "
     >
-      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+      <MapContainer
+        center={[8.646348, 80.488954]}
+        zoom={isValid ? 12 : 7}
+        style={{ height: "100%", width: "100%" }}
+        zoomControl={false}
+      >
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
 
-      <MapClick onChange={onChange} />
+        <FitSriLanka />
+        <MapClick onChange={onChange} />
 
-      {isValid && (
-        <>
-          <Marker position={center} icon={icon} />
-          <Recenter center={center} />
-        </>
-      )}
-    </MapContainer>
+        {isValid && customIcon && (
+          <>
+            <Marker position={center} icon={customIcon} />
+          </>
+        )}
+      </MapContainer>
+    </div>
   );
 }
